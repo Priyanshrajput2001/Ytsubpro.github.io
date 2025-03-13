@@ -1,0 +1,141 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sub for Sub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sub for Sub</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section id="register">
+        <h2>Register Your Channel</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="email" id="email" placeholder="Email">
+        <input type="text" id="channelLink" placeholder="YouTube Channel Link">
+        <button onclick="registerChannel()">Register</button>
+    </section>
+
+    <section id="channels">
+        <h2>Subscribe to Channels</h2>
+        <ul id="channelList">
+            <!-- Channel list will be generated dynamically -->
+        </ul>
+    </section>
+
+    <section id="proof">
+        <h2>Submit Subscription Proof</h2>
+        <input type="text" id="proofChannelName" placeholder="Channel Name">
+        <input type="file" id="proofFile">
+        <button onclick="submitProof()">Submit</button>
+    </section>
+
+    <footer>
+        <p>© 2025 Sub for Sub. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html><style>body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+section {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}</style><script>// Function to register a channel
+function registerChannel() {
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    let channelLink = document.getElementById("channelLink").value;
+
+    if (username && email && channelLink) {
+        let newChannel = {
+            username: username,
+            email: email,
+            channelLink: channelLink
+        };
+
+        let channels = JSON.parse(localStorage.getItem("channels")) || [];
+        channels.push(newChannel);
+        localStorage.setItem("channels", JSON.stringify(channels));
+
+        alert("Channel Registered Successfully!");
+        displayChannels();
+    } else {
+        alert("Please fill all fields.");
+    }
+}
+
+// Function to display channels
+function displayChannels() {
+    let channelList = document.getElementById("channelList");
+    channelList.innerHTML = "";
+    let channels = JSON.parse(localStorage.getItem("channels")) || [];
+
+    channels.forEach((channel, index) => {
+        let listItem = document.createElement("li");
+        listItem.innerHTML = `
+            <p>${channel.username}</p>
+            <a href="${channel.channelLink}" target="_blank"><button>Visit</button></a>
+        `;
+        channelList.appendChild(listItem);
+    });
+}
+
+// Function to submit subscription proof
+function submitProof() {
+    let proofChannelName = document.getElementById("proofChannelName").value;
+    let proofFile = document.getElementById("proofFile").files[0];
+
+    if (proofChannelName && proofFile) {
+        alert("Subscription proof submitted successfully!");
+    } else {
+        alert("Please enter channel name and upload proof.");
+    }
+}
+
+// Display channels on page load
+window.onload = displayChannels;</script>
